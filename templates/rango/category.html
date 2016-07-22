@@ -7,6 +7,7 @@
     <body>
         {% if category %}
         <h1>{{ category_name }}</h1>
+            <a href="add_page">Add Page</a>
             {% if pages %}
             <ul>
                 {% for page in pages %}
@@ -19,5 +20,6 @@
         {% else %}
             The specified category {{ category_name }} does not exist!
         {% endif %}
+
     </body>
 </html>
