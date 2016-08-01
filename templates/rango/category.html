@@ -5,9 +5,13 @@
     </head>
 
     <body>
+
+
         {% if category %}
         <h1>{{ category_name }}</h1>
+            {% if user.is_authenticated %}
             <a href="add_page">Add Page</a>
+        {% endif %}
             {% if pages %}
             <ul>
                 {% for page in pages %}
