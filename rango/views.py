@@ -28,7 +28,7 @@ def category(request, category_name_slug):
     return render(request, 'rango/category.html', context_dict)
 
 def about(request):
-    return HttpResponse("Rango says here is the about page <a href='/rango/'>Index</a>")
+    return render(request, 'rango/about.html', {})
 
 @login_required
 def add_category(request):
@@ -187,7 +187,7 @@ def user_login(request):
 
 @login_required
 def restricted(request):
-    return HttpResponse("Since you're logged in, you can see this text!")
+    return render(request, 'rango/restricted.html', {})
 
 
 # Use the login_required() decorator to ensure only those logged in can access the view.    @login_required
