@@ -1,8 +1,13 @@
-{% extends 'base.html' %}
-{% load staticfiles %}
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block title %}About{% endblock %}
 
 {% block body_block %}
+	<h1>About Rango</h1>
+	This is <strong>Rango's about page</strong>.<br />
 
-    Rango says: Here is the about page.
+	You've visited the site on <strong>{{ visit_count }} occasion(s).</strong><br />
 
 {% endblock %}
