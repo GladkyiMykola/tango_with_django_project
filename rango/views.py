@@ -3,13 +3,12 @@ from django.shortcuts import render_to_response, render
 from django.http import HttpResponse
 from rango.models import Category
 from rango.models import Page
-from rango.forms import UserForm, UserProfileForm
 from rango.forms import CategoryForm, PageForm
-from django.contrib.auth import authenticate, login, logout
-from django.http import HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 from datetime import datetime
-
+from rango.bing_search import run_query
+from django.shortcuts import redirect
+from django.contrib.auth.models import User
 
 def index(request):
     context = RequestContext(request)
@@ -63,6 +62,13 @@ def category(request, category_name_slug):
         context_dict['category'] = category
     except Category.DoesNotExist:
         pass
+
+    if request.method == 'POST':
+                query = request.POST['query'].strip()
+                if query:
+                    result_list = run_query(query)
+                    context_dict['result_list'] = result_list
+
     return render(request, 'rango/category.html', context_dict)
 
 
@@ -133,11 +139,47 @@ def change_password(request):
     return render(request, 'rango/restricted.html', {})
 
 
+def search(request):
 
-def some_view(request):
-    if not request.user.is_authenticated():
-        return HttpResponse("You are logged in.")
-    else:
-        return HttpResponse("You are not logged in.")
+    result_list = []
 
+    if request.method == 'POST':
+        query = request.POST['query'].strip()
 
+        if query:
+            # Run our Bing function to get the results list!
+            result_list = run_query(query)
+
+    return render(request, 'rango/search.html', {'result_list': result_list})
+
+def track_url(request):
+    context = RequestContext(request)
+    page_id = None
+    url = '/rango/'
+    if request.method == 'GET':
+        if 'page_id' in request.GET:
+            page_id = request.GET['page_id']
+            try:
+                page = Page.objects.get(id=page_id)
+                page.views = page.views + 1
+                page.save()
+                url = page.url
+            except:
+                pass
+
+    return redirect(url)
+
+@login_required
+def profile(request):
+    context = RequestContext(request)
+    cat_list = Category.objects.all()
+    context_dict = {'cat_list': cat_list}
+    u = User.objects.get(username=request.user)
+    try:
+        up = UserProfile.objects.get(user=u)
+    except:
+        up = None
+
+    context_dict['user'] = u
+    context_dict['userprofile'] = up
+    return render_to_response('rango/profile.html', context_dict, context)

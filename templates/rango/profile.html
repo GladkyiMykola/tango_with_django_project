@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block title %}Profile{% endblock %}
+
+{% block body_block %}
+<div class="hero-unit">
+   	   <h1> Profile <h1>
+	   <h3>{{user.username}}</h3>
+       <p>Email: {{user.email}}</p>
+
+	   <p>Website: <a href="{{userprofile.website}}">{{userprofile.website}}</a></p>
+           <br/>
+	   <img src="{{userprofile.picture}}"  />
+</div>
+{% endblock %}
