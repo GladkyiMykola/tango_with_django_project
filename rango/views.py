@@ -10,6 +10,11 @@ from rango.bing_search import run_query
 from django.shortcuts import redirect
 from django.contrib.auth.models import User
 
+
+
+def decode_url(str):
+    return str.replace('_', ' ')
+
 def index(request):
     context = RequestContext(request)
 
@@ -19,8 +24,8 @@ def index(request):
     for category in category_list:
 
 
-        page_list = Page.objects.order_by('-views')[:5]
-    context_dict['pages'] = page_list
+        page_list = Page.objects.order_by('-views')
+        context_dict['pages'] = page_list
 
     #### NEW CODE ####
     if request.session.get('last_visit'):
@@ -53,24 +58,18 @@ def about(request):
     # Return and render the response, ensuring the count is passed to the template engine.
 
 def category(request, category_name_slug):
+
     context_dict = {}
+
     try:
         category = Category.objects.get(slug=category_name_slug)
         context_dict['category_name'] = category.name
-        pages = Page.objects.filter(category=category)
+        pages = Page.objects.filter(category=category).order_by('-views')
         context_dict['pages'] = pages
         context_dict['category'] = category
     except Category.DoesNotExist:
         pass
-
-    if request.method == 'POST':
-                query = request.POST['query'].strip()
-                if query:
-                    result_list = run_query(query)
-                    context_dict['result_list'] = result_list
-
     return render(request, 'rango/category.html', context_dict)
-
 
 
 @login_required
@@ -128,8 +127,6 @@ def add_page(request, category_name_slug):
 
     return render(request, 'rango/add_page.html', context_dict)
 
-
-
 @login_required
 def restricted(request):
     return render(request, 'rango/restricted.html', {})
@@ -140,9 +137,7 @@ def change_password(request):
 
 
 def search(request):
-
     result_list = []
-
     if request.method == 'POST':
         query = request.POST['query'].strip()
 
@@ -153,7 +148,6 @@ def search(request):
     return render(request, 'rango/search.html', {'result_list': result_list})
 
 def track_url(request):
-    context = RequestContext(request)
     page_id = None
     url = '/rango/'
     if request.method == 'GET':

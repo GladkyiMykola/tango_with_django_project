@@ -1,3 +1,11 @@
+{% load staticfiles %}
+
+<script src="{% static "js/jquery-3.1.0.min.js" %}"></script>
+<script src="{% static "js/rango-jquery.js" %}"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+
+
+
 {% load rango_extras %}
   <head>
     <meta charset="utf-8">
@@ -39,19 +47,16 @@
                         <li><a href="{% url 'auth_logout' %}?next=/rango/">Logout</a></li>
                         <li><a href="{% url 'add_category' %}">Add a New Category</a></li>
                         <li><a href="{% url 'password_change' %}">Change password</a></li>
-<<<<<<< HEAD
+
                         <li><a href="{% url 'profile' %}">Profile</a></li>
-=======
->>>>>>> origin/master
+
                     {% else %}
                         <li><a href="{% url 'registration_register' %}">Register Here</a></li>
                         <li><a href="{% url 'auth_login' %}">Login</a></li>
                     {% endif %}
-<<<<<<< HEAD
+
                         <li><a href="{% url 'about' %}">About</a></li>
-=======
-                                <li><a href="{% url 'about' %}">About</a></li>
->>>>>>> origin/master
+
 
               </ul>
         </div>

@@ -1,4 +1,4 @@
-{% extends "rango/../base.html" %}
+{% extends "base.html" %}
 {% load static %}
 
 {% block title %}About{% endblock %}
@@ -8,7 +8,13 @@
                 <h1>About </br>
                     <small>This is Rango's about page.</small></h1>
      </div>
+    <button onClick="alert('You clicked the button using Javascript.');">
+       Click Me - I run Javascript
+    </button>
 
-	You've visited the site on <strong>{{ visit_count }} occasion(s).</strong><br />
+    <button id="about-btn"> Click Me - I'm Javascript on Speed</button><br/>
+
+
+	You've visited the site on <strong>{{ visit_count }} times(s).</strong><br/>
 
 {% endblock %}
