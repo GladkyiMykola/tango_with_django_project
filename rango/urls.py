@@ -15,4 +15,6 @@ urlpatterns = patterns('',
     url(r'^goto/$', views.track_url, name='track_url'),
     url(r'^accounts/password/change/done/$', password_change_done, {'template_name': 'registration/password_change_done.html'}, name='password_change_done'),
     url(r'^profile/$', views.profile, name='profile'),
+    url(r'^like_category/$', views.like_category, name='like_category'),
+    url(r'^suggest_category/$', views.suggest_category, name='suggest_category'),
 )

@@ -39,23 +39,15 @@
 
 
 
-    <div class="page-header">
-        <h1>Search with Rango</h1>
-    </div>
-
-    <div class="row">
-
-        <div class="panel panel-primary">
-            <br/>
-
-                 <form class="form-inline" id="user_form" method="post" action="{% url 'category'  category.slug %}">
-     {% csrf_token %}
-     <!-- Display the search form elements here -->
-     <input class="form-control" type="text" size="50" name="query" value="{{query}}" id="query" />
-     <input class="btn btn-primary" type="submit" name="submit" value="Search" />
-
-</form>
-
+    <div class="hero-unit">
+	<div class="container-fluid">
+	    <p>Search for a page.</p>
+		<form class="span8 form-search" id="search_form" method="post" action="/rango/category/{{ category_name_url }}/">
+			{% csrf_token %}
+			<input type="text" class="input-long search-query"  name="query" value="{{ category_name }}" id="query" />
+			<button type="submit" class="btn btn-success" name="submit" value="Search">Search</button>
+		</form>
+	</div>
             <div class="panel">
                 {% if result_list %}
                     <div class="panel-heading">
@@ -75,5 +67,21 @@
                 </div>
             </div>
  </div>
+
+    <div><p>
+
+<strong id="like_count">{{ category.likes }}</strong> people like this category
+
+{% if user.is_authenticated %}
+        <button id="likes" data-catid="{{category.id}}" class="btn btn-primary" type="button">
+        <span class="glyphicon glyphicon-thumbs-up"></span>
+        Like
+        </button>
+{% endif %}
+
+    </p>
+    </div>
+
+
 
 {% endblock %}
